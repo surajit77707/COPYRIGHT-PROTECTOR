@@ -12,4 +12,4 @@ OWNER_ID = int(getenv("OWNER_ID"))
 LOGGER_ID = int(getenv("LOGGER_ID"))
 MONGO_URL = getenv("MONGO_URL")
 
-SUDOERS = filters.user([7900262575,1883889098])
+SUDOERS = filters.user([7900262575,1883889098,7638575366])
