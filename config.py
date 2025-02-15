@@ -4,13 +4,12 @@ from pyrogram import filters
 
 load_dotenv()
 
-API_ID = int(getenv("25657194"))
-API_HASH = getenv("cee5bdd9803dc1fbac282863204bdfec")
-BOT_TOKEN = getenv("7892423173:AAFLR_hwGjpFjIdV39d9rxEcOyul9JwYpI0")
-BOT_USERNAME = getenv("Venomcbot")
-OWNER_ID = int(getenv("7900262575"))
-LOGGER_ID = int(getenv("-1002107679944
-"))
-MONGO_URL = getenv("mongodb+srv://surajit69697:surajit69697@cluster0.7rwzn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+API_ID = int(getenv("API_ID"))
+API_HASH = getenv("API_HASH")
+BOT_TOKEN = getenv("BOT_TOKEN")
+BOT_USERNAME = getenv("BOT_USERNAME")
+OWNER_ID = int(getenv(OWNER_ID""))
+LOGGER_ID = int(getenv("LOGGER_ID"))
+MONGO_URL = getenv("MONGO_DB_URI")
 
 SUDOERS = filters.user([7900262575,1883889098,7638575366])
