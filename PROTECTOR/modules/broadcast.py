@@ -1,9 +1,9 @@
+import asyncio
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from config import SUDOERS
 from PROTECTOR import PROTECTOR as app
-from PROTECTOR.helper.mongo import get_served_chats
-from PROTECTOR.helper.mongo import get_served_users
+from PROTECTOR.helper.mongo import get_served_chats, get_served_users
 
 IS_BROADCASTING = False
 
@@ -24,24 +24,20 @@ async def broadcast_message(client, message):
             return await message.reply_text("Please provide some text to broadcast.")
 
     IS_BROADCASTING = True
+    sent, pin, susr = 0, 0, 0  # Tracking counts
+
+    # Fetch chats and users efficiently
+    chats = [int(chat["chat_id"]) for chat in await get_served_chats()]
+    users = [int(user["user_id"]) for user in await get_served_users()]
 
     # Bot broadcast inside chats
     if "-nobot" not in message.text:
-        sent = 0
-        pin = 0
-        chats = []
-        schats = await get_served_chats()
-        for chat in schats:
-            chats.append(int(chat["chat_id"]))
         for i in chats:
-            if i == -1002059718978:
+            if i == -1002059718978:  # Exclude specific chat ID
                 continue
             try:
-                if message.reply_to_message and message.reply_to_message.message_id:
-                    m = await app.forward_messages(i, y, x)
-                else:
-                    m = await app.send_message(i, text=query)
-
+                m = await app.forward_messages(i, y, x) if message.reply_to_message else await app.send_message(i, text=query)
+                
                 if "-pin" in message.text:
                     try:
                         await m.pin(disable_notification=True)
@@ -58,36 +54,32 @@ async def broadcast_message(client, message):
             except FloodWait as e:
                 flood_time = int(e.x)
                 if flood_time > 200:
+                    print(f"Skipping chat {i} due to high FloodWait ({flood_time}s)")
                     continue
                 await asyncio.sleep(flood_time)
-            except Exception:
+            except Exception as e:
+                print(f"Error sending to chat {i}: {e}")
                 continue
         try:
-            await message.reply_text(f"**Broadcasted Message In {sent} Chats with {pin} Pins from Bot.**")
+            await message.reply_text(f"**Broadcasted Message In {sent} Chats with {pin} Pins.**")
         except:
             pass
 
     # Bot broadcasting to users
     if "-user" in message.text:
-        susr = 0
-        served_users = []
-        susers = await get_served_users()
-        for user in susers:
-            served_users.append(int(user["user_id"]))
-        for i in served_users:
+        for i in users:
             try:
-                if message.reply_to_message and message.reply_to_message.message_id:
-                    m = await app.forward_messages(i, y, x)
-                else:
-                    m = await app.send_message(i, text=query)
+                m = await app.forward_messages(i, y, x) if message.reply_to_message else await app.send_message(i, text=query)
                 susr += 1
             except FloodWait as e:
                 flood_time = int(e.x)
                 if flood_time > 200:
+                    print(f"Skipping user {i} due to high FloodWait ({flood_time}s)")
                     continue
                 await asyncio.sleep(flood_time)
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"Error sending to user {i}: {e}")
+                continue
         try:
             await message.reply_text(f"**Broadcasted Message to {susr} Users.**")
         except:
