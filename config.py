@@ -1,6 +1,8 @@
 from os import getenv
 from dotenv import load_dotenv
 from pyrogram import filters
+from COPYRIGHT-PROTECTOR.config 
+import MONGO_URI
 
 load_dotenv()
 
