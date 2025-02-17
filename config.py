@@ -10,6 +10,6 @@ BOT_TOKEN = "7848626329:AAFE8i9wj4d1ostJFk9Msy5YPVcVk_OlJps"
 BOT_USERNAME = "Protectorvbot"
 OWNER_ID = 6375272628
 LOGGER_ID = -1002107679944
-MONGO_URL = "mongodb+srv://surajit69697:surajit69697@cluster0.7rwzn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URL = "mongodb+srv://xmen7151:xmen7151@cluster0.4h4js.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 SUDOERS = filters.user([1883889098,7638575366])
