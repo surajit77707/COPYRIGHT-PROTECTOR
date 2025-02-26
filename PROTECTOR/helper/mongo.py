@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Mongo Database
 try:
-    mongodb = AsyncIOMotorClient(MONGO_URL).ULTRON
+    mongodb = AsyncIOMotorClient(MONGO_URI).ULTRON
 except Exception as e:
     logging.error("Failed to connect to MongoDB: %s", e)
     print("Please change your MongoDB settings.")
