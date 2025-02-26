@@ -11,7 +11,8 @@ from config import BOT_USERNAME, OWNER_ID
 from PROTECTOR import PROTECTOR as app
 
 # Constants
-FORBIDDEN_KEYWORDS = ["porn", "xxx", "NCERT", "ncert", "ans", "Pre-Medical", "kinematics", "Experiments", "Experiment", "experiment", "experimens", "XII", "page", "Ans", "meiotic", "divisions", "Syste[...]"]
+FORBIDDEN_KEYWORDS = ["porn", "xxx", "NCERT", "ncert", "ans", "Pre-Medical", "kinematics", "Experiments", "Experiment", "experiment", "experimens", "XII", "page", "Ans", "meiotic", "divisions", "S[...]"]
+
 START_TEXT = """<b> 🤖 ᴄᴏᴘʏʀɪɢʜᴛ ᴘʀᴏᴛᴇᴄᴛᴏʀ 🛡️ </b>
 
 ʜᴇʏ ᴛʜɪs ɪs ᴄᴏᴘʏʀɪɢʜᴛ ᴘʀᴏᴛᴇᴄᴛᴏʀ ʀᴏʙᴏᴛ🤖!\n ᴡᴇ ᴇɴsᴜʀᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ sᴇᴄᴜʀɪᴛʏ💻 !\n ᴛʜɪs ʙᴏᴛ ᴄᴀɴ ʀ�[...]"""
@@ -96,6 +97,9 @@ async def handle_message(client, message):
         await message.delete()
         await message.reply_text(f"@{message.from_user.username} 𝖣𝗈𝗇'𝗍 𝗌𝖾𝗇𝖽 𝗇𝖾𝗑𝗍 𝗍𝗂𝗆𝖾!")
 
+def is_authorized(user_id: int) -> bool:
+    return user_id in OWNER_ID  # Add authorized user IDs in OWNER_ID
+
 # Delete long edited messages but keep short messages and emoji reactions
 async def delete_long_edited_messages(client, edited_message: Message):
     if edited_message.text and len(edited_message.text.split()) > 20:
@@ -105,7 +109,10 @@ async def delete_long_edited_messages(client, edited_message: Message):
 
 @app.on_edited_message(filters.group & ~filters.me)
 async def handle_edited_messages(_, edited_message: Message):
-    await delete_long_edited_messages(_, edited_message)
+    if not is_authorized(edited_message.from_user.id):
+        await edited_message.delete()
+    else:
+        await delete_long_edited_messages(_, edited_message)
 
 # Delete long messages in groups and reply with a warning
 MAX_MESSAGE_LENGTH = 25  # Define the maximum allowed length for a message
