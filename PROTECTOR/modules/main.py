@@ -27,6 +27,8 @@ START_TEXT = """<b>🤖 ᴄᴏᴘʏʀɪɢʜᴛ ᴘʀᴏᴛᴇᴄᴛᴏʀ 🛡️
 MAX_MESSAGE_LENGTH = 40
 Devs = ["7044783841", "7019293589", "6757745933"]
 
+start_time = time.time()
+
 # Buttons
 gd_buttons = [
     [InlineKeyboardButton("ᴏᴡɴᴇʀ", url="https://t.me/JARVIS_V2"),
