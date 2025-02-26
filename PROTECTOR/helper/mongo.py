@@ -1,5 +1,5 @@
 import sys
-from config import MONGO_URL  # Correct import usage
+from config import MONGO_URI  # Correct import usage  # Correct import usage
 from motor.motor_asyncio import AsyncIOMotorClient
 import logging
 
