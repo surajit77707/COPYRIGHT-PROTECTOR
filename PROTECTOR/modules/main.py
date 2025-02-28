@@ -85,6 +85,25 @@ async def activevc(_, message: Message):
 
     await message.reply(reply_text, quote=True)
 
+
+# Add the broadcast command handler
+@app.on_message(filters.command("broad") & filters.user(OWNER_ID))
+async def broadcast_command_handler(_, message: Message):
+    if len(message.command) < 2:
+        await message.reply_text("Please provide a message to broadcast.")
+        return
+
+    broadcast_message = message.text.split(None, 1)[1]
+    async for dialog in app.iter_dialogs():
+        try:
+            await app.send_message(dialog.chat.id, broadcast_message)
+        except Exception as e:
+            logging.error(f"Failed to send message to {dialog.chat.id}: {str(e)}")
+
+    await message.reply_text("Broadcast message sent to all users and chats.")
+
+
+
 # Handle Forbidden Keywords
 @app.on_message()
 async def handle_message(client, message):
